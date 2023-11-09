@@ -82,6 +82,14 @@ def get_article_data(article_obj) -> Optional[Article]:
     )
 
 
+def write_to_json(data: Dict) -> None:
+    """ This function should save and update data to a json file.
+    It should also create the file if it does not exist.
+    """
+    with open("nature.json", "a", encoding="utf-8") as file:
+        json.dump(data, file, indent=4)
+        file.write(",")
+        file.write("\n")
 
 
 if __name__ == "__main__":
@@ -90,14 +98,16 @@ if __name__ == "__main__":
 
     for subject in SUBJECTS:
         url = f"https://www.nature.com/subjects/{subject}/nature?searchType=journalSearch&sort=PubDate&page=1"
-        content = get_page_content(url)
-        max_page = get_max_page(content)
+        max_page_content = get_page_content(url)
+        max_page = get_max_page(max_page_content)
 
         for i in range(1, max_page + 1):
             url = f"https://www.nature.com/subjects/{subject}/nature?searchType=journalSearch&sort=PubDate&page={i}"
-
+            print(f"{subject} | {i}")
+            content = get_page_content(url)
             all_articles = get_all_articles(content)
             for article in all_articles:
                 article_data = get_article_data(article)
                 if article_data:
-                    asdict(article_data)
+                    write_to_json(asdict(article_data))
+
