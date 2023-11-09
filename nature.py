@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from typing import List
+from typing import List, Optional
 
 SUBJECTS = ["physical-sciences", "earth-and-environmental-sciences", "biological-sciences", "health-sciences",
             "scientific-community-and-society"]
@@ -25,6 +25,16 @@ def get_max_page(soup) -> int:
             continue
 
     return max(result)
+
+
+def get_all_articles(soup) -> Optional[List]:
+    articles = None
+    container = soup.find("ul", class_="ma0 mb-negative-2 clean-list")
+    if container:
+        articles = container.find_all("li")
+
+    return articles
+
 
 
 if __name__ == "__main__":
