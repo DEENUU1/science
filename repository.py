@@ -1,10 +1,10 @@
 from typing import Any, Dict, Generic, List, Optional, Type as TType, TypeVar, Union
 from sqlalchemy.orm import Session
-from .schemas import TypeCreateSchema, TypeUpdateSchema
-from .models import Type
+from schemas import TypeCreateSchema, TypeUpdateSchema
+from models import Type
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
-from .database import Base
+from database import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
