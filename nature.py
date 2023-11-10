@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict
 from dataclasses import dataclass, asdict
 import json
 
@@ -78,7 +78,7 @@ def get_article_data(article_obj) -> Optional[Article]:
         authors=authors,
         url=f"https://www.nature.com{title_url['href']}",
         is_free=free,
-        date=date["datetime"]
+        date=date["datetime"],
     )
 
 
@@ -92,7 +92,21 @@ def write_to_json(data: Dict) -> None:
         file.write("\n")
 
 
-if __name__ == "__main__":
+def get_article_details(url: str) -> Optional[str]:
+    content = get_page_content(url)
+    res = None
+
+    selectors = ["div.main-content", "div.c-article-body main-content"]
+    for selector in selectors:
+        article_content = content.find("div", class_=selector)
+        if article_content:
+            res = article_content.text.strip()
+            break
+
+    return res
+
+
+def main():
     SUBJECTS = ["physical-sciences", "earth-and-environmental-sciences", "biological-sciences", "health-sciences",
                 "scientific-community-and-society"]
 
@@ -100,10 +114,8 @@ if __name__ == "__main__":
         url = f"https://www.nature.com/subjects/{subject}/nature?searchType=journalSearch&sort=PubDate&page=1"
         max_page_content = get_page_content(url)
         max_page = get_max_page(max_page_content)
-
         for i in range(1, max_page + 1):
             url = f"https://www.nature.com/subjects/{subject}/nature?searchType=journalSearch&sort=PubDate&page={i}"
-            print(f"{subject} | {i}")
             content = get_page_content(url)
             all_articles = get_all_articles(content)
             for article in all_articles:
@@ -111,3 +123,6 @@ if __name__ == "__main__":
                 if article_data:
                     write_to_json(asdict(article_data))
 
+
+if __name__ == "__main__":
+    main()
