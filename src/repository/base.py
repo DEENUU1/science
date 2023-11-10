@@ -1,24 +1,22 @@
 from typing import Any, Dict, Generic, List, Optional, Type as TType, TypeVar, Union
 from sqlalchemy.orm import Session
-from schemas import TypeCreateSchema, TypeUpdateSchema
-from models import Type
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
-from database import Base
+from ..database import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
 
-class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
+class RepositoryBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(self, model: TType[ModelType]):
         self.model = model
 
     def get(self, db: Session, id: int) -> Optional[ModelType]:
         return db.query(self.model).filter(self.model.id == id).first()
 
-    def get_multi(self, db: Session, *, skip: int = 0, limit: int = 100) -> List[ModelType]:
+    def get_list(self, db: Session, *, skip: int = 0, limit: int = 100) -> List[ModelType]:
         return db.query(self.model).offset(skip).limit(limit).all()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
@@ -48,10 +46,3 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db.delete(obj)
         db.commit()
         return obj
-
-
-class CRUDType(CRUDBase[Type, TypeCreateSchema, TypeUpdateSchema]):
-    pass
-
-
-types = CRUDType(Type)

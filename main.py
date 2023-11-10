@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from api import api_router
-from database import Base, engine
-
+from src.api import api_router
+from src.database import Base, engine
 
 app = FastAPI(title="Science")
 app.add_middleware(

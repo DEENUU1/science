@@ -1,8 +1,15 @@
-from database import Base
 from sqlalchemy import TIMESTAMP, Column, String, Boolean, Text, Integer, Table
 from sqlalchemy.sql import func
 from sqlalchemy import ForeignKey
+from .database import Base
 from sqlalchemy.orm import relationship
+
+
+class Author(Base):
+    __tablename__ = "authors"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    full_name = Column(String, nullable=False)
+    datas = relationship('Data', secondary='data_author', back_populates='authors')
 
 
 class Type(Base):
@@ -11,13 +18,6 @@ class Type(Base):
     name = Column(String, nullable=False)
 
     datas = relationship('Data', back_populates='type')
-
-
-class Author(Base):
-    __tablename__ = "authors"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    full_name = Column(String, nullable=False)
-    datas = relationship('Data', secondary='data_author', back_populates='authors')
 
 
 class Data(Base):
