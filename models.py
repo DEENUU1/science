@@ -1,27 +1,26 @@
 from .database import Base
-from sqlalchemy import TIMESTAMP, Column, String, Boolean, Text
+from sqlalchemy import TIMESTAMP, Column, String, Boolean, Text, Integer
 from sqlalchemy.sql import func
-from fastapi_utils.guid_type import GUID, GUID_DEFAULT_SQLITE
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
 
 class Type(Base):
     __tablename__ = "type"
-    id = Column(GUID, primary_key=True, default=GUID_DEFAULT_SQLITE)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
 
 
 class Author(Base):
     __tablename__ = "author"
-    id = Column(GUID, primary_key=True, default=GUID_DEFAULT_SQLITE)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     full_name = Column(String, nullable=False)
 
 
 class Data(Base):
     __tablename__ = "data"
-    id = Column(GUID, primary_key=True, default=GUID_DEFAULT_SQLITE)
-    type_id = Column(GUID, ForeignKey('type.id'), nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    type_id = Column(Integer, ForeignKey('type.id'), nullable=True)
     type = relationship('Type', back_populates='data', nullable=True)
     title = Column(String, nullable=False)
     short_desc = Column(Text, nullable=True)
