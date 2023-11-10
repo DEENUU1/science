@@ -3,8 +3,8 @@
 
 
 ## Roadmap
-- [ ] Create few scrapers with Scrapy
-- [ ] Add simple backend login using FastAPI
+- [ ] Create few scrapers 
+- [ ] Add simple backend logic using FastAPI
 - [ ] Use HTMX as a frontend for the app 
 
 ## Tech stack
