@@ -14,8 +14,8 @@ class TypeCreateSchema(BaseModel):
     name: str
 
 
-class TypeRequestSchema(BaseModel):
-    id: int
+class TypeUpdateSchema(TypeSchema):
+    pass
 
 
 class ListTypeSchema(BaseModel):
@@ -28,10 +28,6 @@ class AuthorSchema(BaseModel):
 
     class Config:
         orm_mode = True
-
-
-class AuthorRequestSchema(BaseModel):
-    id: int
 
 
 class AuthorCreateSchema(BaseModel):
