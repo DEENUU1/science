@@ -14,5 +14,9 @@ class AuthorCreateSchema(BaseModel):
     full_name: str
 
 
+class AuthorUpdateSchema(BaseModel):
+    full_name: Optional[str]
+
+
 class ListAuthorSchema(BaseModel):
     authors: List[Optional[AuthorSchema]]
