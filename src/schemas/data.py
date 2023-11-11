@@ -22,10 +22,9 @@ class ListDataSchema(BaseModel):
     data: List[Optional[DataSchema]]
 
 
-class CreateDataSchema(BaseModel):
-    title: str
-    short_desc: Optional[str]
-    url: str
-    published_date: Optional[str]
-    type_id: Optional[int]
-    authors: Optional[List[int]]
+class CreateDataSchema(DataSchema):
+    pass
+
+
+class UpdateDataSchema(DataSchema):
+    pass
