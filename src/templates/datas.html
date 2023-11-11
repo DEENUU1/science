@@ -3,6 +3,28 @@
 
 <div class="container">
 
+    {% if data_list %}
+        {% for data in data_list %}
+            Title: {{data.title}}
+            Short desc: {{data.short_desc}}
+            URL: {{data.url}}
+            {% if data.is_free %}
+                FREE!
+            {% endif %}
+
+            Published date: {{data.published_date}}
+            Type: {{data.type.name}}
+
+            {% if data.authors %}
+                {% for author in data.authors %}
+                    Fullname: {{author.full_name}}
+                {% endfor %}
+            {% endif %}
+            <br><br><br>
+        {% endfor %}
+    {% else %}
+    <h2>No data</h2>
+    {% endif %}
 </div>
 
 {% endblock %}
