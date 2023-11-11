@@ -1,8 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
-from typing import List, Optional, Dict
-from dataclasses import dataclass, asdict
-import json
+from typing import List, Optional
+from dataclasses import dataclass
+from src.repository.type import types
+from src.repository.data import data
+from src.repository.author import author
+from src.database import get_db
+from sqlalchemy.orm import Session
 
 
 @dataclass
@@ -82,16 +86,6 @@ def get_article_data(article_obj) -> Optional[Article]:
     )
 
 
-def write_to_json(data: Dict) -> None:
-    """ This function should save and update data to a json file.
-    It should also create the file if it does not exist.
-    """
-    with open("nature.json", "a", encoding="utf-8") as file:
-        json.dump(data, file, indent=4)
-        file.write(",")
-        file.write("\n")
-
-
 def get_article_details(url: str) -> Optional[str]:
     content = get_page_content(url)
     res = None
@@ -106,14 +100,15 @@ def get_article_details(url: str) -> Optional[str]:
     return res
 
 
-def main():
-    SUBJECTS = ["physical-sciences", "earth-and-environmental-sciences", "biological-sciences", "health-sciences",
-                "scientific-community-and-society"]
-
+def run_nature_scraper(db: Session):
+    # SUBJECTS = ["physical-sciences", "earth-and-environmental-sciences", "biological-sciences", "health-sciences",
+    #             "scientific-community-and-society"]
+    SUBJECTS = ["physical-sciences"]
     for subject in SUBJECTS:
         url = f"https://www.nature.com/subjects/{subject}/nature?searchType=journalSearch&sort=PubDate&page=1"
         max_page_content = get_page_content(url)
-        max_page = get_max_page(max_page_content)
+        # max_page = get_max_page(max_page_content)
+        max_page = 5
         for i in range(1, max_page + 1):
             url = f"https://www.nature.com/subjects/{subject}/nature?searchType=journalSearch&sort=PubDate&page={i}"
             content = get_page_content(url)
@@ -121,8 +116,27 @@ def main():
             for article in all_articles:
                 article_data = get_article_data(article)
                 if article_data:
-                    write_to_json(asdict(article_data))
+                    if data.exists(db, article_data.url):
+                        # This should skip to the next category and do not go to next page
+                        pass
 
+                    if not types.exists(db, article_data.type):
+                        types.create_by_fields(db, article_data.type)
+                    type_obj = types.get_by_name(db, article_data.type)
 
-if __name__ == "__main__":
-    main()
+                    authors_objects = []
+                    for a in article_data.authors:
+                        if not author.exists(db, a):
+                            author.create_by_fields(db, a)
+                        authors_objects.append(author.get_by_full_name(db, a))
+
+                    data.create_by_fields(
+                        db,
+                        title=article_data.title,
+                        url=article_data.url,
+                        short_desc=article_data.short_desc,
+                        is_free=article_data.is_free,
+                        published_date=article_data.date,
+                        type=type_obj,
+                        authors=authors_objects
+                    )

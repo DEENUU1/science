@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from type import TypeSchema
-from author import AuthorSchema
+from .type import TypeSchema
+from .author import AuthorSchema
 
 
 class DataSchema(BaseModel):

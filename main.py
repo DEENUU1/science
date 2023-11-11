@@ -1,9 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from starlette.middleware.cors import CORSMiddleware
 from src.api import api_router
-from src.database import Base, engine
+from src.database import Base, engine, get_db
 from sqladmin import Admin
 from src.admin import TypeAdmin, AuthorAdmin, DataAdmin
+from nature import run_nature_scraper
+from sqlalchemy.orm import Session
 
 
 app = FastAPI(title="Science")
@@ -23,3 +25,4 @@ admin = Admin(app, engine)
 admin.add_view(TypeAdmin)
 admin.add_view(AuthorAdmin)
 admin.add_view(DataAdmin)
+run_nature_scraper(next(get_db()))

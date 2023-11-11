@@ -12,5 +12,11 @@ class RepositoryAuthor(RepositoryBase[Author, AuthorCreateSchema, AuthorUpdateSc
     def get_by_full_name(self, db: Session, full_name: str) -> Author:
         return db.query(Author).filter(Author.full_name == full_name).first()
 
+    def create_by_fields(self, db: Session, full_name: str) -> Author:
+        author = Author(full_name=full_name)
+        db.add(author)
+        db.commit()
+        return author
+
 
 author = RepositoryAuthor(Author)
