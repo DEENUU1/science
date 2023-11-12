@@ -5,7 +5,7 @@ from src.api import api_router
 from src.database import Base, engine, get_db
 from sqladmin import Admin
 from src.admin import TypeAdmin, AuthorAdmin, DataAdmin
-# from nature import run_nature_scraper
+from src.scrapers.nature import run_nature_scraper
 from fastapi.staticfiles import StaticFiles
 
 

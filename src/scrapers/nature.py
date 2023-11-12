@@ -86,17 +86,22 @@ def get_article_data(article_obj) -> Optional[Article]:
     )
 
 
-def get_article_details(url: str) -> Optional[str]:
+def get_article_details(db: Session, url: str):
     content = get_page_content(url)
     res = None
 
-    selectors = ["div.main-content", "div.c-article-body main-content"]
+    selectors = ["main-content", "c-article-body main-content", "c-article-body"]
     for selector in selectors:
         article_content = content.find("div", class_=selector)
         if article_content:
             res = article_content.text.strip()
             break
 
+    if res is None:
+        return None
+
+    data_obj = data.get_by_url(db, url)
+    data.update_content(db, data_obj.id, res)
     return res
 
 

@@ -7,7 +7,6 @@
 {% block main_content %}
 
 <div class="container">
-
     {% if data_list %}
 
         {% for data in data_list %}
@@ -18,6 +17,9 @@
                     <p>{{data.short_desc}}</p>
                     {% if data.is_free %}
                         <span class="free">FREE</span>
+                        <button hx-swap="outerHTML #content" hx-get="/content/{{data.id}}">
+                            Show Content
+                        </button>
                     {% endif %}
                 </div>
 
@@ -30,6 +32,9 @@
                     {% endfor %}
                     </div>
                 {% endif %}
+
+                <div id="content"></div>
+
             </div>
         {% endfor %}
 
