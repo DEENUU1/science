@@ -1,5 +1,5 @@
-from typing import Any
-from fastapi import APIRouter, Depends, Request
+from typing import Any, Annotated, Optional
+from fastapi import APIRouter, Depends, Request, Query
 from sqlalchemy.orm import Session
 from ..repository.data import data
 from ..database import get_db
@@ -11,8 +11,12 @@ templates = Jinja2Templates(directory="src/templates")
 
 
 @router.get("/")
-async def get_all_schemas(request: Request, db: Session = Depends(get_db)) -> Any:
-    data_list = data.get_list(db)
+async def get_all(request: Request, db: Session = Depends(get_db), f: Optional[bool] = False) -> Any:
+    if f:
+        data_list = data.get_frees(db)
+    else:
+        data_list = data.get_list(db)
+
     return templates.TemplateResponse(
         "data.html",
         {

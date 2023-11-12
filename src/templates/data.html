@@ -6,7 +6,18 @@
 
 {% block main_content %}
 
-<div class="container">
+{#<form action="/" method="get">#}
+{#    <label for="free">Only Free</label>#}
+{#    <input type="checkbox" id="free" name="f" value="true">#}
+{#    <input type="submit" value="Filtruj">#}
+{#</form>#}
+
+
+<div class="container" id="container">
+
+    <button hx-target="#container" hx-swap="outerHTML" hx-get="/" hx-vars="f:true">Free only</button>
+    <button hx-target="#container" hx-swap="outerHTML" hx-get="/">All</button>
+
     {% if data_list %}
 
         {% for data in data_list %}

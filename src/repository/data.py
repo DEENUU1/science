@@ -27,5 +27,8 @@ class RepositoryData(RepositoryBase[Data, CreateDataSchema, UpdateDataSchema]):
     def get_by_url(self, db: Session, url: str) -> Data:
         return db.query(Data).filter(Data.url == url).first()
 
+    def get_frees(self, db: Session) -> List[Data]:
+        return db.query(Data).filter(Data.is_free == True).all()
+
 
 data = RepositoryData(Data)
