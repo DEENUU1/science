@@ -18,6 +18,7 @@ class Article:
     url: str
     date: str
     is_free: bool = False
+    content: Optional[str] = None
 
 
 def get_page_content(url: str):
@@ -86,11 +87,11 @@ def get_article_data(article_obj) -> Optional[Article]:
     )
 
 
-def get_article_details(url: str) -> Optional[str]:
+def get_article_details(url: str):
     content = get_page_content(url)
     res = None
 
-    selectors = ["div.main-content", "div.c-article-body main-content"]
+    selectors = ["main-content", "c-article-body main-content", "c-article-body"]
     for selector in selectors:
         article_content = content.find("div", class_=selector)
         if article_content:
@@ -130,10 +131,14 @@ def run_nature_scraper(db: Session):
                             author.create_by_fields(db, a)
                         authors_objects.append(author.get_by_full_name(db, a))
 
+                    if article_data.is_free:
+                        article_data.content = get_article_details(article_data.url)
+
                     data.create_by_fields(
                         db,
                         title=article_data.title,
                         url=article_data.url,
+                        content=article_data.content,
                         short_desc=article_data.short_desc,
                         is_free=article_data.is_free,
                         published_date=article_data.date,

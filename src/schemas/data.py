@@ -7,6 +7,7 @@ from .author import AuthorSchema
 class DataSchema(BaseModel):
     id: int
     title: str
+    content: Optional[str]
     short_desc: Optional[str]
     url: str
     is_free: bool = False

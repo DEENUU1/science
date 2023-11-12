@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Science{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,600,600italic,700,700italic|Source+Code+Pro:500">
+
+<!--    <link rel="stylesheet" href="/static/fontawesome-free/css/all.min.css"/>-->
+
+<!--    <link rel="stylesheet" href="/static/css/site.css"/>-->
+
+    {% block additional_css %}{% endblock %}
+</head>
+<body>
+
+<nav>
+<!--    <a class="navbar-brand" href="/">Science <i class="fas fa-book"></i></a>-->
+<!--    <span>-->
+<!--        <a class="nav-item" href="/authors">Authors <i class="fas fa-users"></i></a>-->
+<!--        <a class="nav-item" href="/books">Books <i class="fas fa-book-reader"></i></a>-->
+<!--    </span>-->
+
+
+</nav>
+
+<div class="main_content">
+    {% block main_content %}{% endblock %}
+</div>
+
+<!--<footer>-->
+<!--    <div class="copyright">-->
+<!--        Made by <a href="https://github.com/DEENUU1/" target="_blank">Kacper Włodarczyk</a>-->
+<!--    </div>-->
+<!--</footer>-->
+
+<script src="https://unpkg.com/htmx.org@1.9.8" integrity="sha384-rgjA7mptc2ETQqXoYC3/zJvkU7K/aP44Y+z7xQuJiVnB/422P/Ak+F/AqFR7E4Wr" crossorigin="anonymous"></script>
+
+{% block additional_js %}{% endblock %}
+
+</body>
+</html>
