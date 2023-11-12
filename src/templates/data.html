@@ -6,20 +6,20 @@
 
 {% block main_content %}
 
-{#<form action="/" method="get">#}
-{#    <label for="free">Only Free</label>#}
-{#    <input type="checkbox" id="free" name="f" value="true">#}
-{#    <input type="submit" value="Filtruj">#}
-{#</form>#}
-
 
 <div class="container" id="container">
 
-    <button hx-target="#container" hx-swap="outerHTML" hx-get="/" hx-vars="f:true">Free only</button>
-    <button hx-target="#container" hx-swap="outerHTML" hx-get="/">All</button>
+    <div class="filters mb-5 mt-5">
+        <form action="/search" hx-target="#container" hx-swap="outerHTML" hx-get>
+            <input type="text" name="query" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+
+        <button class="btn btn-success" hx-target="#container" hx-swap="outerHTML" hx-get="/" hx-vars="f:true">Free only</button>
+        <button class="btn btn-info"  hx-target="#container" hx-swap="outerHTML" hx-get="/">All</button>
+    </div>
 
     {% if data_list %}
-
         {% for data in data_list %}
             <div class="card">
                 <div class="header">

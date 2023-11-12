@@ -30,5 +30,8 @@ class RepositoryData(RepositoryBase[Data, CreateDataSchema, UpdateDataSchema]):
     def get_frees(self, db: Session) -> List[Data]:
         return db.query(Data).filter(Data.is_free == True).all()
 
+    def search(self, db: Session, query: str) -> Optional[List[Data]]:
+        return db.query(Data).filter(Data.title.ilike(f'%{query}%')).all()
+
 
 data = RepositoryData(Data)
