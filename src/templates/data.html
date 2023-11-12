@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block additional_css %}
+        <link href="{{ url_for('static', path='/css/data.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block main_content %}
+
+<div class="container">
+
+    {% if data_list %}
+
+        {% for data in data_list %}
+            <div class="card">
+                <div class="header">
+                    <h5><a href="{{data.url}}">{{data.title}}</a></h5>
+                    <span>{{data.type.name}}</span>
+                    <p>{{data.short_desc}}</p>
+                    {% if data.is_free %}
+                        <span class="free">FREE</span>
+                    {% endif %}
+                </div>
+
+                <span class="date">{{data.published_date}}</span>
+
+                {% if data.authors %}
+                    <div class="authors">
+                    {% for author in data.authors %}
+                        <span class="author-name">{{author.full_name}}</span>
+                    {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+
+    {% else %}
+
+        <h2 class="no-data">No data😥</h2>
+
+    {% endif %}
+</div>
+
+{% endblock %}

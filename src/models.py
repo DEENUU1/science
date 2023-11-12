@@ -25,6 +25,7 @@ class Data(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String, nullable=False)
     short_desc = Column(Text, nullable=True)
+    content = Column(Text, nullable=True)
     url = Column(String, nullable=False)
     is_free = Column(Boolean, default=False)
     published_date = Column(String, nullable=True)

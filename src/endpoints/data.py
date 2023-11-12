@@ -14,7 +14,7 @@ templates = Jinja2Templates(directory="src/templates")
 async def get_all_schemas(request: Request, db: Session = Depends(get_db)) -> Any:
     data_list = data.get_list(db)
     return templates.TemplateResponse(
-        "datas.html",
+        "data.html",
         {
             "request": request,
             "data_list": data_list

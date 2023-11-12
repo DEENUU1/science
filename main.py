@@ -6,13 +6,13 @@ from src.database import Base, engine, get_db
 from sqladmin import Admin
 from src.admin import TypeAdmin, AuthorAdmin, DataAdmin
 # from nature import run_nature_scraper
-# from fastapi.staticfiles import StaticFiles
+from fastapi.staticfiles import StaticFiles
 
 
 app = FastAPI(title="Science")
 
 
-# app.mount("/src/static", StaticFiles(directory="static"), name="static")
+app.mount("/src/static", StaticFiles(directory="src/static"), name="static")
 
 app.add_middleware(
     CORSMiddleware,

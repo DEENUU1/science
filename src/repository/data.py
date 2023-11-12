@@ -18,5 +18,11 @@ class RepositoryData(RepositoryBase[Data, CreateDataSchema, UpdateDataSchema]):
         db.commit()
         return data
 
+    def update_content(self, db: Session, content: str, data_id: int) -> Data:
+        data = db.query(Data).filter(Data.id == data_id).first()
+        data.content = content
+        db.commit()
+        return data
+
 
 data = RepositoryData(Data)

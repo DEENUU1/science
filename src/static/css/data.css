@@ -1,0 +1,38 @@
+.no-data {
+    text-align: center;
+}
+
+.card {
+  position: relative;
+  margin-bottom: 20px;
+  border-style: solid;
+  border-color: black;
+}
+
+.free {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px 10px;
+  background-color: green;
+  color: white;
+  font-size: 12px;
+}
+
+.date {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.author-name {
+  color: #8c8686;
+}
+
+.header a {
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+}
