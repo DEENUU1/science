@@ -3,7 +3,7 @@ from typing import Optional
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from src.repository.data import data
+from backend.repository.data import data
 from sqlalchemy.orm import Session
 
 

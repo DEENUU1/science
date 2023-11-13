@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from src.api import api_router
-from src.database import Base, engine, get_db
+from backend.api import api_router
+from backend.database import Base, engine, get_db
 from sqladmin import Admin
-from src.admin import TypeAdmin, AuthorAdmin, DataAdmin
-from src.scrapers.nature import run_nature_scraper
-from src.scrapers.ng import run_ng
+from backend.admin import TypeAdmin, AuthorAdmin, DataAdmin
+from backend.scrapers.nature import run_nature_scraper
+from backend.scrapers.ng import run_ng
 from dotenv import load_dotenv
 import os
 from starlette.middleware.cors import CORSMiddleware

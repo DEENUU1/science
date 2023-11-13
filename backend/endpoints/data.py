@@ -1,5 +1,5 @@
-from typing import Any, Optional, Annotated
-from fastapi import APIRouter, Depends, Request, Query
+from typing import Any, Annotated
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from ..repository.data import data
 from ..database import get_db
