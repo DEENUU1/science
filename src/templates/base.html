@@ -17,6 +17,17 @@
 <body>
 
 {# Add navigation bar here #}
+<nav>
+  <a href="/auth/login" class="google-btn">
+    <div class="google-icon"></div>
+    <span class="btn-text">Signin with Gmail</span>
+  </a>
+  <a href="/auth/logout" class="google-btn">
+    <div class="google-icon"></div>
+    <span class="btn-text">Logout</span>
+  </a>
+</nav>
+
 
 <div class="main_content">
     {% block main_content %}{% endblock %}

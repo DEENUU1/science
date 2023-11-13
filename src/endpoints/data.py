@@ -19,12 +19,12 @@ async def get_all(request: Request, db: Session = Depends(get_db), query: Option
         data_list = data.get_frees(db)
     else:
         data_list = data.get_list(db)
-
+    print(request.session.get("user"))
     return templates.TemplateResponse(
         "data.html",
         {
             "request": request,
-            "data_list": data_list
+            # "data_list": data_list
         }
     )
 
