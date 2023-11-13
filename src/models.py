@@ -5,6 +5,13 @@ from .database import Base
 from sqlalchemy.orm import relationship
 
 
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String, nullable=False, unique=True)
+    hashed_password = Column(String, nullable=False)
+
+
 class Author(Base):
     __tablename__ = "authors"
     id = Column(Integer, primary_key=True, autoincrement=True)

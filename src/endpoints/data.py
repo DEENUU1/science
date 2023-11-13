@@ -10,7 +10,8 @@ templates = Jinja2Templates(directory="src/templates")
 
 
 @router.get("/")
-async def get_all(request: Request, db: Session = Depends(get_db), query: Optional[str] = None, f: Optional[bool] = False) -> Any:
+async def get_all(request: Request, db: Session = Depends(get_db), query: Optional[str] = None,
+                  f: Optional[bool] = False) -> Any:
     if query:
         return await search(request, query, db)
 

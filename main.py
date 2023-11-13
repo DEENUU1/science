@@ -8,9 +8,7 @@ from src.admin import TypeAdmin, AuthorAdmin, DataAdmin
 from src.scrapers.nature import run_nature_scraper
 from fastapi.staticfiles import StaticFiles
 
-
 app = FastAPI(title="Science")
-
 
 app.mount("/src/static", StaticFiles(directory="src/static"), name="static")
 
@@ -23,7 +21,6 @@ app.add_middleware(
 )
 app.include_router(api_router)
 Base.metadata.create_all(bind=engine)
-
 
 admin = Admin(app, engine)
 admin.add_view(TypeAdmin)
