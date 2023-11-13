@@ -60,8 +60,3 @@ async def auth(request: Request, db: Session = Depends(get_db)):
 def logout(request: Request):
     request.session.pop('user')
     return RedirectResponse('/')
-
-
-@router.get("/current")
-def get_current_user(request: Request):
-    return request.session.get('user')
