@@ -1,9 +1,12 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
 from starlette.templating import Jinja2Templates
 from starlette.responses import RedirectResponse
 from authlib.integrations.starlette_client import OAuth, OAuthError
 from dotenv import load_dotenv
 import os
+from ..repository.user import user as user_repo
+from ..database import get_db
+from sqlalchemy.orm import Session
 
 load_dotenv()
 
@@ -29,7 +32,7 @@ async def login(request: Request):
 
 
 @router.get('/auth')
-async def auth(request: Request):
+async def auth(request: Request, db: Session = Depends(get_db)):
     try:
         token = await oauth.google.authorize_access_token(request)
     except OAuthError as e:
@@ -39,7 +42,17 @@ async def auth(request: Request):
         )
     user = token.get('userinfo')
     if user:
-        request.session['user'] = dict(user)
+        user_data = dict(user)
+        request.session['user'] = user_data
+
+        if not user_repo.exists(db, user_data["email"]):
+            user_repo.create_by_fields(
+                db,
+                email=user_data["email"],
+                first_name=user_data["given_name"],
+                last_name=user_data.get("family_name", None),
+            )
+
     return RedirectResponse('/')
 
 
@@ -47,3 +60,8 @@ async def auth(request: Request):
 def logout(request: Request):
     request.session.pop('user')
     return RedirectResponse('/')
+
+
+@router.get("/current")
+def get_current_user(request: Request):
+    return request.session.get('user')
