@@ -67,5 +67,6 @@ def run_ng(db: Session):
                     db,
                     title=article_details.title,
                     url=article_details.url,
-                    content=article_details.content
+                    content=article_details.content,
+                    is_free=True
                 )

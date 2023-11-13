@@ -5,15 +5,6 @@ from .database import Base
 from sqlalchemy.orm import relationship
 
 
-class User(Base):
-    __tablename__ = "users"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    email = Column(String, nullable=False, unique=True)
-    first_name = Column(String, nullable=False)
-    last_name = Column(String, nullable=True)
-    date_created = Column(TIMESTAMP(timezone=True), server_default=func.now())
-
-
 class Author(Base):
     __tablename__ = "authors"
     id = Column(Integer, primary_key=True, autoincrement=True)

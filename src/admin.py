@@ -1,5 +1,5 @@
 from sqladmin import ModelView
-from .models import Type, Data, Author, User
+from .models import Type, Data, Author
 
 
 class TypeAdmin(ModelView, model=Type):
@@ -22,13 +22,5 @@ class AuthorAdmin(ModelView, model=Author):
     column_list = [Author.id, Author.full_name]
     column_searchable_list = [Author.full_name]
     name_plural = "Authors"
-    page_size = 50
-    page_size_options = [25, 50, 100, 200]
-
-
-class UserAdmin(ModelView, model=User):
-    column_list = [User.id, User.email, User.first_name, User.last_name]
-    column_searchable_list = [User.email, User.first_name, User.last_name]
-    name_plural = "Users"
     page_size = 50
     page_size_options = [25, 50, 100, 200]

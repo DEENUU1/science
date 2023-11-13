@@ -1,48 +1,30 @@
-from typing import Any, Optional
-from fastapi import APIRouter, Depends, Request
+from typing import Any, Optional, Annotated
+from fastapi import APIRouter, Depends, Request, Query
 from sqlalchemy.orm import Session
 from ..repository.data import data
 from ..database import get_db
-from starlette.templating import Jinja2Templates
+from ..schemas.data import ListDataSchema, DataResponseSchema
 
 router = APIRouter()
-templates = Jinja2Templates(directory="src/templates")
 
 
-@router.get("/")
-async def get_all(request: Request, db: Session = Depends(get_db), query: Optional[str] = None,
-                  f: Optional[bool] = False) -> Any:
-    if query:
-        return await search(request, query, db)
-
+@router.get("/", response_model=ListDataSchema)
+async def get_all(db: Session = Depends(get_db), f: Annotated[bool | None, Query()] = None) -> Any:
     if f:
         data_list = data.get_frees(db)
     else:
         data_list = data.get_list(db)
 
-    return templates.TemplateResponse(
-        "data.html",
-        {
-            "request": request,
-            # "data_list": data_list
-        }
-    )
+    return {"count": len(data_list), "data": data_list}
 
 
-@router.post("/search")
-async def search(request: Request, query: str, db: Session = Depends(get_db)):
+@router.post("/search", response_model=ListDataSchema)
+async def search(db: Session = Depends(get_db), query: Annotated[str, Query(min_length=1)] = None) -> Any:
     data_list = data.search(db, query)
-
-    return templates.TemplateResponse(
-        "data.html",
-        {
-            "request": request,
-            "data_list": data_list
-        }
-    )
+    return {"count": len(data_list), "data": data_list}
 
 
-@router.get("/content/{id}")
-async def get_data_content(id: int, db: Session = Depends(get_db)) -> Any:
-    data_obj = data.get(db, id)
-    return data_obj.content
+@router.get("/{id}", response_model=DataResponseSchema)
+async def get_data(id: int, db: Session = Depends(get_db)) -> Any:
+    data_object = data.get(db, id)
+    return {"data": data_object}
