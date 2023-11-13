@@ -3,6 +3,8 @@ from typing import Optional
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from src.repository.data import data
+from sqlalchemy.orm import Session
 
 
 @dataclass
@@ -50,10 +52,20 @@ def get_article_details(url: str) -> Data:
         return Data(url, title.text, content.text)
 
 
-URL = "https://www.nationalgeographic.com/sitemaps/items.1.xml"
-content = get_page_content(URL)
-urls = parse_xml(content)
-print(len(urls))
-for url in urls:
-    article_details = get_article_details(url)
-    print(article_details)
+def run_ng(db: Session):
+    for i in range(1, MAX_ITEM + 1):
+        URL = f"https://www.nationalgeographic.com/sitemaps/items.{i}.xml"
+        content = get_page_content(URL)
+        urls = parse_xml(content)
+        for url in urls:
+            article_details = get_article_details(url)
+
+            if article_details:
+                if data.exists(db, article_details.url):
+                    pass
+                data.create_by_fields(
+                    db,
+                    title=article_details.title,
+                    url=article_details.url,
+                    content=article_details.content
+                )
