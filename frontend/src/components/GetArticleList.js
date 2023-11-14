@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 export async function getListData() {
   const response = await fetch('http://127.0.0.1:8000');
@@ -10,7 +11,7 @@ export async function getListData() {
 }
 
 
-export default async function Index() {
+export default async function ArticleList() {
   const datas = await getListData();
   return (
     <ul>
@@ -19,6 +20,7 @@ export default async function Index() {
           <h3>{data.title}</h3>
           <p>{data.short_desc}</p>
           <a href={data.url}>{data.url}</a>
+          <Link href={`/data/${data.id}`}>Full content</Link>
         </li>
       ))}
     </ul>

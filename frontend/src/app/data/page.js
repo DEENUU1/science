@@ -1,10 +1,10 @@
-import Index from "@/components/ArticleList";
+import ArticleList from "@/components/GetArticleList";
 
-export default function Page() {
+export default function DataList() {
   return (
       <div>
         <h1>Articles</h1>
-        <Index/>
+        <ArticleList/>
       </div>
   )
 }
