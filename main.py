@@ -1,25 +1,23 @@
-from fastapi import FastAPI, Depends
-from starlette.middleware.cors import CORSMiddleware
-from starlette.middleware.sessions import SessionMiddleware
-from src.api import api_router
-from src.database import Base, engine, get_db
+from fastapi import FastAPI
+from backend.api import api_router
+from backend.database import Base, engine, get_db
 from sqladmin import Admin
-from src.admin import TypeAdmin, AuthorAdmin, DataAdmin, UserAdmin
-from src.scrapers.nature import run_nature_scraper
-from src.scrapers.ng import run_ng
-from fastapi.staticfiles import StaticFiles
+from backend.admin import TypeAdmin, AuthorAdmin, DataAdmin
+from backend.scrapers.nature import run_nature_scraper
+from backend.scrapers.ng import run_ng
 from dotenv import load_dotenv
 import os
+from starlette.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
 app = FastAPI(title="Science")
-
-app.mount("/src/static", StaticFiles(directory="src/static"), name="static")
-
 app.add_middleware(
-    SessionMiddleware,
-    secret_key=os.getenv("SECRET_KEY"),
+    CORSMiddleware,
+    allow_origins=["http://localhost", "http://localhost:4200", "http://localhost:3000", "http://localhost:8080"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(api_router)
@@ -29,6 +27,5 @@ admin = Admin(app, engine)
 admin.add_view(TypeAdmin)
 admin.add_view(AuthorAdmin)
 admin.add_view(DataAdmin)
-admin.add_view(UserAdmin)
 # run_nature_scraper(next(get_db()))
 # run_ng(next(get_db()))

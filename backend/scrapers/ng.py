@@ -3,7 +3,7 @@ from typing import Optional
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from src.repository.data import data
+from backend.repository.data import data
 from sqlalchemy.orm import Session
 
 
@@ -67,5 +67,6 @@ def run_ng(db: Session):
                     db,
                     title=article_details.title,
                     url=article_details.url,
-                    content=article_details.content
+                    content=article_details.content,
+                    is_free=True
                 )

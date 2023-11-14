@@ -2,10 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 from typing import List, Optional
 from dataclasses import dataclass
-from src.repository.type import types
-from src.repository.data import data
-from src.repository.author import author
-from src.database import get_db
+from backend.repository.type import types
+from backend.repository.data import data
+from backend.repository.author import author
+from backend.database import get_db
 from sqlalchemy.orm import Session
 
 
