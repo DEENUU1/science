@@ -20,7 +20,7 @@ export default async function ArticleList() {
           <h3>{data.title}</h3>
           <p>{data.short_desc}</p>
           <a href={data.url}>{data.url}</a>
-          <Link href={`/data/${data.id}`}>Full content</Link>
+          <Link href={`/${data.id}`}>Full content</Link>
         </li>
       ))}
     </ul>
