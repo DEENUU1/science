@@ -1,23 +1,24 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, EmailStr
+from typing import Union
+from datetime import datetime
 
 
-class UserBaseSchema(BaseModel):
-    email: EmailStr
-    name: str
-
-
-class CreateUserSchema(UserBaseSchema):
-    hashed_password: str = Field(alias="password")
-
-
-class UserLoginSchema(BaseModel):
-    email: EmailStr = Field(alias="username")
-    password: str
-
-
-class UserSchema(UserBaseSchema):
-    id: int
-    is_active: bool = Field(default=False)
-
+class BaseResponse(BaseModel):
     class Config:
-        orm_mode = True
+        from_attributes = True
+        arbitrary_types_allowed = True
+
+
+class UserResponse(BaseModel):
+    id: int
+    first_name: str
+    last_name: str
+    email: EmailStr
+    registered_at: Union[None, datetime] = None
+
+
+class CreateUserRequest(BaseModel):
+    first_name: str
+    last_name: str
+    email: EmailStr
+    password: str

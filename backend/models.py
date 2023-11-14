@@ -1,42 +1,24 @@
-import os
-
-from sqlalchemy import TIMESTAMP, Column, String, Boolean, Text, Integer, Table, UniqueConstraint, PrimaryKeyConstraint, LargeBinary
+from sqlalchemy import TIMESTAMP, Column, String, Boolean, Text, Integer, Table, DateTime
 from sqlalchemy.sql import func
 from sqlalchemy import ForeignKey
 from .database import Base
 from sqlalchemy.orm import relationship
-import bcrypt
-import jwt
-from dotenv import load_dotenv
+from datetime import datetime
 
-load_dotenv()
 
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    email = Column(String, nullable=False, unique=True)
-    hashed_password = Column(LargeBinary, nullable=False)
-    name = Column(String, nullable=False)
-    is_active = Column(Boolean, default=True)
-    is_admin = Column(Boolean, default=False)
-
-    UniqueConstraint("email", name="uq_user_email")
-    PrimaryKeyConstraint("id", name="pk_user_id")
-
-    @staticmethod
-    def hash_password(password) -> bytes:
-        return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-
-    def validate_password(self, password) -> bool:
-        return bcrypt.checkpw(password.encode(), self.hashed_password)
-
-    def generate_token(self) -> dict:
-        return {
-            "access_token": jwt.encode(
-                {"full_name": self.full_name, "email": self.email},
-                os.getenv("SECRET_KEY")
-            )
-        }
+    first_name = Column(String(100))
+    last_name = Column(String(100))
+    email = Column(String(255), unique=True, index=True)
+    password = Column(String(100))
+    is_active = Column(Boolean, default=False)
+    is_verified = Column(Boolean, default=False)
+    verified_at = Column(DateTime, nullable=True, default=None)
+    registered_at = Column(DateTime, nullable=True, default=None)
+    updated_at = Column(DateTime, nullable=True, default=None, onupdate=datetime.now)
+    created_at = Column(DateTime, nullable=False, server_default=func.now())
 
 
 class Author(Base):

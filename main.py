@@ -5,11 +5,9 @@ from sqladmin import Admin
 from backend.admin import TypeAdmin, AuthorAdmin, DataAdmin
 from backend.scrapers.nature import run_nature_scraper
 from backend.scrapers.ng import run_ng
-from dotenv import load_dotenv
-import os
 from starlette.middleware.cors import CORSMiddleware
-
-load_dotenv()
+from starlette.middleware.authentication import AuthenticationMiddleware
+from backend.security import JWTAuth
 
 app = FastAPI(title="Science")
 app.add_middleware(
@@ -19,6 +17,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(AuthenticationMiddleware, backend=JWTAuth())
 
 app.include_router(api_router)
 Base.metadata.create_all(bind=engine)
