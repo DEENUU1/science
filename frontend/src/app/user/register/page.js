@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react';
+import {redirect} from "next/navigation";
 
 export default function RegisterPage() {
   const [first_name, setFirstName] = useState('');
@@ -7,6 +8,10 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+
+  if (localStorage.getItem("token")) {
+    redirect("/")
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -1,11 +1,16 @@
 'use client'
 
 import { useState } from 'react';
+import {redirect} from "next/navigation";
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword]  = useState('');
   const [error, setError] = useState(null);
+
+  if (localStorage.getItem("token")) {
+    redirect("/")
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +37,7 @@ export default function LoginPage() {
       if (json.access_token) {
         const token = json.access_token;
         setToken(token);
-        console.log("Redirect to home page ")
+        redirect("/")
       } else {
         setError('Incorrect email or password.');
       }

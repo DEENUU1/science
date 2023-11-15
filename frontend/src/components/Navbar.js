@@ -51,7 +51,7 @@ const Navbar = () => {
               <Link href="/">
                 <h2 className="text-2xl text-cyan-600 font-bold "><Image width={50} height={50} src="https://img.freepik.com/darmowe-wektory/projekt-szablonu-logo-nauki_23-2150337872.jpg?w=1380&t=st=1700078773~exp=1700079373~hmac=1b262ef35470542b75e168f46f8a5ade8554a1ac43a6c75566087b4f83442fb9"></Image> </h2>
               </Link>
-              {/* HAMBURGER BUTTON FOR MOBILE */}
+
               <div className="md:hidden">
                 <button
                   className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
@@ -81,11 +81,13 @@ const Navbar = () => {
               <ul className="h-screen md:h-auto items-center justify-center md:flex ">
                {isLoggedIn ? (
                   <>
+                    {user && (
                     <li className="pb-6 text-xl text-white py-2 px-6 text-center  border-b-2 md:border-b-0  hover:bg-blue-400  border-blue-900  md:hover:text-blue-600 md:hover:bg-transparent">
                       <Link href="#" onClick={() => setNavbar(!navbar)}>
                         Welcome, {user.first_name}
                       </Link>
                     </li>
+                    )}
                     <li className="pb-6 text-xl text-white py-2 px-6 text-center  border-b-2 md:border-b-0  hover:bg-blue-400  border-blue-900  md:hover:text-blue-600 md:hover:bg-transparent">
                       <Link href="#" onClick={handleLogout}>
                         Logout
