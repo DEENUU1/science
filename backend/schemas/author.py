@@ -3,8 +3,8 @@ from typing import List, Optional
 
 
 class AuthorSchema(BaseModel):
-    id: int
-    full_name: str
+    id: Optional[int] = None
+    full_name: Optional[str] = None
 
     class Config:
         orm_mode = True

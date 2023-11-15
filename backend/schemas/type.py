@@ -3,8 +3,8 @@ from typing import List, Optional
 
 
 class TypeSchema(BaseModel):
-    id: int
-    name: str
+    id: Optional[int] = None
+    name: Optional[str] = None
 
     class Config:
         orm_mode = True
