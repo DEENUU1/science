@@ -58,7 +58,6 @@ export default function RegisterPage() {
       />
       <input
         type='password'
-        label='Password'
         placeholder='Password'
         value={password}
         onChange={(e) => setPassword(e.target.value)}
