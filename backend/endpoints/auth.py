@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..schemas.user import CreateUserRequest
 from ..repository.user import create_user_account
-
+from ..security import get_current_user
 
 router = APIRouter()
 
@@ -27,3 +27,8 @@ async def create_user(data: CreateUserRequest, db: Session = Depends(get_db)):
     await create_user_account(data=data, db=db)
     payload = {"message": "User account has been succesfully created."}
     return JSONResponse(content=payload)
+
+
+@router.get("/user")
+async def get_user(token: str = Header(), db: Session = Depends(get_db)):
+    return get_current_user(token, db)
