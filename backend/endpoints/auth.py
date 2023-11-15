@@ -22,7 +22,7 @@ async def refresh_access_token(refresh_token: str = Header(), db: Session = Depe
     return await get_refresh_token(token=refresh_token, db=db)
 
 
-@router.post("")
+@router.post("/")
 async def create_user(data: CreateUserRequest, db: Session = Depends(get_db)):
     await create_user_account(data=data, db=db)
     payload = {"message": "User account has been succesfully created."}
