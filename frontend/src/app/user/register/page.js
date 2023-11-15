@@ -35,7 +35,7 @@ export default function RegisterPage() {
 
       const json = await response.json();
       if (json.message === 'User account has been succesfully created.') {
-        console.log("Redirect to login page")
+        redirect("/")
       } else {
         setError('An error occurred while creating the user account.');
       }
