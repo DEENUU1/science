@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, BackgroundTasks
 from backend.api import api_router
 from backend.database import Base, engine, get_db
 from sqladmin import Admin
@@ -27,5 +27,15 @@ admin.add_view(TypeAdmin)
 admin.add_view(AuthorAdmin)
 admin.add_view(DataAdmin)
 admin.add_view(UserAdmin)
-# run_nature_scraper(next(get_db()))
-# run_ng(next(get_db()))
+
+# @app.on_event("startup")
+# async def run_nature_scraper_task():
+#     BackgroundTasks().add_task(run_nature_scraper(next(get_db())))
+#     print("Scraped all articles from nature")
+#
+#
+# @app.on_event("startup")
+# async def run_ng_scraper_task():
+#     BackgroundTasks().add_task(run_ng(next(get_db())))
+#     print("Scraped all articles from national geographic")
+#
