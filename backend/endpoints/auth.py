@@ -14,21 +14,34 @@ router = APIRouter()
 
 @router.post("/token")
 async def authenticate_user(data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    """
+    Authenticate User
+    """
     return await get_token(data=data, db=db)
 
 
 @router.post("/refresh")
 async def refresh_access_token(refresh_token: str = Header(), db: Session = Depends(get_db)):
+    """
+    Refresh Access Token
+    This method is used to refresh the access token using a refresh token.
+    """
     return await get_refresh_token(token=refresh_token, db=db)
 
 
 @router.post("/")
 async def create_user(data: CreateUserRequest, db: Session = Depends(get_db)):
+    """
+    Create a user account.
+    """
     await create_user_account(data=data, db=db)
-    payload = {"message": "User account has been succesfully created."}
+    payload = {"message": "User account has been successfully created."}
     return JSONResponse(content=payload)
 
 
 @router.get("/user")
 async def get_user(token: str = Header(), db: Session = Depends(get_db)):
+    """
+    Return user object based on token
+    """
     return get_current_user(token, db)

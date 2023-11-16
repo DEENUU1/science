@@ -58,7 +58,6 @@ def _verify_user_access(user: User):
         )
 
     if not user.is_verified:
-        # Trigger user account verification email
         raise HTTPException(
             status_code=400,
             detail="Your account is unverified. We have resend the account verification email.",
@@ -77,5 +76,5 @@ async def _get_user_token(user: User, refresh_token=None):
     return TokenResponse(
         access_token=access_token,
         refresh_token=refresh_token,
-        expires_in=access_token_expiry.seconds  # in seconds
+        expires_in=access_token_expiry.seconds
     )

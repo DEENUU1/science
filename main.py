@@ -1,6 +1,6 @@
-from fastapi import FastAPI, BackgroundTasks
+from fastapi import FastAPI
 from backend.api import api_router
-from backend.database import Base, engine, get_db
+from backend.database import Base, engine
 from sqladmin import Admin
 from backend.admin import TypeAdmin, AuthorAdmin, DataAdmin, UserAdmin
 from backend.scrapers.nature import run_nature_scraper
@@ -8,11 +8,14 @@ from backend.scrapers.ng import run_ng
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.authentication import AuthenticationMiddleware
 from backend.security import JWTAuth
+from backend.config import get_settings
 
-app = FastAPI(title="Science")
+settings = get_settings()
+
+app = FastAPI(title=settings.TITLE)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost", "http://localhost:4200", "http://localhost:3000", "http://localhost:8080"],
+    allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -28,14 +31,5 @@ admin.add_view(AuthorAdmin)
 admin.add_view(DataAdmin)
 admin.add_view(UserAdmin)
 
-# @app.on_event("startup")
-# async def run_nature_scraper_task():
-#     BackgroundTasks().add_task(run_nature_scraper(next(get_db())))
-#     print("Scraped all articles from nature")
-#
-#
-# @app.on_event("startup")
-# async def run_ng_scraper_task():
-#     BackgroundTasks().add_task(run_ng(next(get_db())))
-#     print("Scraped all articles from national geographic")
-#
+# run_nature_scraper(next(get_db()))
+# run_ng(next(get_db()))
